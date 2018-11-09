@@ -3,7 +3,7 @@ package servlets;
 import auth.AuthenticationHelper;
 import auth.AuthenticationResult;
 import auth.AuthenticationResultState;
-import com.sun.deploy.net.HttpRequest;
+import auth.UserSession;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,6 +35,8 @@ public class LoginAuthServlet extends HttpServlet {
         try {
             AuthenticationResult result = AuthenticationHelper.authenticate(username, password);
             if(result.getState() == AuthenticationResultState.SUCCESS) {
+                UserSession userSession = new UserSession(result.getUsername(), result.getPayRollId());
+                request.getSession().setAttribute("usersession", userSession);
                 response.sendRedirect("/sits.jsp");
             } else {
                 redirectError("Unknown account or invalid details", request, response);
