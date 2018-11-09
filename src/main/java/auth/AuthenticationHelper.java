@@ -3,6 +3,8 @@ package auth;
 import db.DatabaseHelper;
 import db.TableNames;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -10,7 +12,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
@@ -29,6 +30,21 @@ public class AuthenticationHelper {
         }
     }
 
+    public static boolean isAuthenticated(HttpServletRequest request) {
+        return getSession(request) != null;
+    }
+
+    public static UserSession getSession(HttpServletRequest request) {
+        UserSession session = (UserSession) request.getSession().getAttribute("usersession");
+        if(session == null) return null;
+
+        if(session.hasExpired()) {
+            request.getSession().removeAttribute("usersession");
+            return null;
+        }
+        return session;
+    }
+
     public static AuthenticationResult authenticate(String username, String password) throws Exception {
         username = username.trim();
 
@@ -37,13 +53,15 @@ public class AuthenticationHelper {
             statement.setString(1, username);
 
             ResultSet set = statement.executeQuery();
-            if(!set.first()) return AuthenticationResult.UNKNOWN_USER;
+            if(!set.first()) return new AuthenticationResult(AuthenticationResultState.UNKNOWN_USER, null, -1);
 
+            username = set.getString("USERNAME");
+            int id = set.getInt("payrollnum");
             String hashedPassword = set.getString("HASHPASSWORD");
             String salt = set.getString("SALT");
 
-            if(checkLogin(password, hashedPassword, salt)) return AuthenticationResult.SUCCESS;
-            else return AuthenticationResult.INVALID_DETAILS;
+            if(checkLogin(password, hashedPassword, salt)) return new AuthenticationResult(AuthenticationResultState.SUCCESS, username, id);
+            else return new AuthenticationResult(AuthenticationResultState.INVALID_DETAILS, username, id);
         }
     }
 
