@@ -19,7 +19,7 @@ public class LoginAuthServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(AuthenticationHelper.isAuthenticated(request)) {
-            response.sendRedirect("/sits.jsp");
+            response.sendRedirect("/waiting.jsp");
             return;
         }
         String username = request.getParameter("username");
@@ -37,7 +37,7 @@ public class LoginAuthServlet extends HttpServlet {
             if(result.getState() == AuthenticationResultState.SUCCESS) {
                 UserSession userSession = new UserSession(result.getUsername(), result.getPayRollId());
                 request.getSession().setAttribute("usersession", userSession);
-                response.sendRedirect("/sits.jsp");
+                response.sendRedirect("/waiting.jsp");
             } else {
                 redirectError("Unknown account or invalid details", request, response);
             }
