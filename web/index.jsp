@@ -9,7 +9,7 @@
   <body>
   <h3>Login</h3>
   <form>
-    Username <input type="password">
+    Username <input type="text">
     <p>
       Password <input type="password">
     <p>
