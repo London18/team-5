@@ -17,7 +17,13 @@
     <p>
       <input type="submit">
   </form>
-  <a href="waiting.jsp">Test</a>
-  $END$
+  <p>
+        <a href="waiting.jsp">Waiting page</a>
+  <p>
+      <a href="leave.jsp">Leave page</a>
+  <p>
+      <a href="comments.jsp">Comments page</a>
+  <p>
+      <a href="returned.jsp">Returned page</a>
   </body>
 </html>
