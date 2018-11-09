@@ -8,7 +8,7 @@
   </head>
   <body>
   <h3>Login</h3>
-  <form>
+  <form action="/loginauth" method="POST">
     Username <input type="text">
     <p>
       Password <input type="password">
