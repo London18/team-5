@@ -17,6 +17,7 @@
     <p>
       <input type="submit">
   </form>
+  <a href="waiting.jsp">Test</a>
   $END$
   </body>
 </html>
