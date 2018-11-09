@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Leave page</title>
+    <link rel="stylesheet" href="carerStyles.css">
 </head>
 <body>
 

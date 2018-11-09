@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Comments page</title>
+    <link rel="stylesheet" href="carerStyles.css">
 </head>
 <body>
 <a href="index.jsp">To Login Page</a>

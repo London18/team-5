@@ -3,9 +3,7 @@
   <head>
     <title>Julia's House Login</title>
 
-    <style>
-
-    </style>
+    <link rel="stylesheet" href="carerStyles.css">
 
   </head>
   <body>

@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Returned Page</title>
+    <link rel="stylesheet" href="carerStyles.css">
 </head>
 <body>
 
