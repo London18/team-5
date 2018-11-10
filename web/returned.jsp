@@ -6,7 +6,7 @@
 <%@ page import="db.sessionFetcher" %>
 <html lang="en">
 <head style="min-height: 100%;">
-    <title>Bootstrap Example</title>
+    <title>Julia's House</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -95,7 +95,7 @@
         <hr>
         <p>Please let us know that you have arrived at your destination safely!</p>
 
-        <form action="/safe" method="POST">
+        <form action="/safe.jsp" method="POST">
             <br />
             <input type="submit" value="Confirm I have arrived safely" class="confirm btn block submitbutton">
         </form>

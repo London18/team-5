@@ -1,15 +1,13 @@
 package data;
 
-import java.util.Date;
-
 public class sessionInformation {
 
 	private int status;
-	private Date startDateTime;
-	private Date endDateTime;
+	private String startDateTime;
+	private String endDateTime;
 	private String name;
 
-	public sessionInformation(int status, Date startDateTime, Date endDateTime, String name) {
+	public sessionInformation(int status, String startDateTime, String endDateTime, String name) {
 		this.status = status;
 		this.startDateTime = startDateTime;
 		this.endDateTime = endDateTime;
@@ -20,11 +18,11 @@ public class sessionInformation {
 		return status;
 	}
 
-	public Date getStartDateTime() {
+	public String getStartDateTime() {
 		return startDateTime;
 	}
 
-	public Date getEndDateTime() {
+	public String getEndDateTime() {
 		return endDateTime;
 	}
 

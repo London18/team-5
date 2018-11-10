@@ -28,11 +28,11 @@ public class SafeServlet extends HttpServlet {
         sessionInformation sessionInfo = sessionFetcher.getSessionInfo(AuthenticationHelper.getSession(request).getName());
         if(sessionInfo.getStatus() == 0) {
             String comments = request.getParameter("comment");
-            sessionFetcher.storeCommentAndLeftHome(comments, AuthenticationHelper.getSession(request).getName(), new Date(sessionInfo.getStartDateTime().getTime()), new Date(sessionInfo.getEndDateTime().getTime()));
+            sessionFetcher.storeCommentAndLeftHome(comments, AuthenticationHelper.getSession(request).getName(), sessionInfo.getStartDateTime(), sessionInfo.getEndDateTime());
             request.getSession().setAttribute("message_message", "Thanks for letting us know you finished your sit!");
             response.sendRedirect("/message.jsp");
         } else if(sessionInfo.getStatus() == 1) {
-            sessionFetcher.storeSafePlace(AuthenticationHelper.getSession(request).getName(), new Date(sessionInfo.getStartDateTime().getTime()), new Date(sessionInfo.getEndDateTime().getTime()));
+            sessionFetcher.storeSafePlace(AuthenticationHelper.getSession(request).getName(), sessionInfo.getStartDateTime(), sessionInfo.getEndDateTime());
             request.getSession().setAttribute("message_message", "Thanks for letting us know you got back safely! :)");
             response.sendRedirect("/message.jsp");
         } else response.sendRedirect("/waiting.jsp");
