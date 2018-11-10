@@ -2,6 +2,9 @@ package db;
 
 import data.sessionInformation;
 
+<<<<<<< HEAD
+=======
+>>>>>>> origin/timesystem
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -114,6 +117,7 @@ public class sessionFetcher {
 
 	public boolean storeSafePlace(String user, Date startTD, Date endTD){
 		PreparedStatement preparedStatement = null;
+<<<<<<< HEAD
 		try {
 			preparedStatement = this.db.getConnection().prepareStatement("UPDATE SESSIONSASS, SESSIONS, PASSWORDS" +
 					" SET SESSIONSASS.HOME = 1 WHERE SESSIONSASS.PAYROLLNUM = PASSWORDS." +
@@ -121,6 +125,8 @@ public class sessionFetcher {
 			preparedStatement.setString('0',user);
 			preparedStatement.setDate('1',startTD);
 			preparedStatement.setDate('2',endTD);
+=======
+>>>>>>> origin/timesystem
 			return preparedStatement.execute();
 		} catch (SQLException e) {
 			return false;

@@ -12,6 +12,10 @@
         <servlet-name>logoutauth</servlet-name>
         <servlet-class>servlets.LogoutAuthServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>safe</servlet-name>
+        <servlet-class>servlets.SafeServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>loginauth</servlet-name>
@@ -20,6 +24,10 @@
     <servlet-mapping>
         <servlet-name>logoutauth</servlet-name>
         <url-pattern>/logoutauth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>safe</servlet-name>
+        <url-pattern>/safe</url-pattern>
     </servlet-mapping>
 
     <listener>

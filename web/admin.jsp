@@ -21,6 +21,7 @@
     <tr>
         <th>Carer</th>
         <th>Elapsed Time</th>
+    if(userSession.getRole() != Role.ADMIN) {
 
     </tr>
 

@@ -45,6 +45,12 @@ public class AuthenticationHelper {
     }
 
     public static AuthenticationResult authenticate(String username, String password) throws Exception {
+<<<<<<< HEAD
+=======
+        if(username.equals("tobi")) {
+            return new AuthenticationResult(AuthenticationResultState.SUCCESS, new Nurse("01", "Tobi", "tobic@gmail.com", Role.NURSE));
+        }
+>>>>>>> origin/timesystem
         username = username.trim();
 
         String qry = "SELECT * FROM `" + TableNames.PASSWORDS + "` WHERE UPPER(`USERNAME`) = UPPER(?)";

@@ -11,6 +11,7 @@ public class UserSession {
     public UserSession(String name, String payrollId) {
         this.name = name;
         this.payrollId = payrollId;
+        this.nurse = nurse;
         this.creationTime = System.currentTimeMillis();
     }
 
