@@ -1,4 +1,8 @@
-<%--
+<%@ page import="db.Session" %>
+<%@ page import="db.SessionChecker" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.sql.Date" %><%--
   Created by IntelliJ IDEA.
   User: 06gbi
   Date: 09/11/2018
@@ -14,6 +18,25 @@
 </head>
 <body>
 <a href = "/logoutauth">LOGOUT</a>
+<%
+    List<Session> sessions = SessionChecker.getSessionInformation();
+    if(SessionChecker.isInSession(sessions)) {
+        response.sendRedirect("/leave.jsp");
+        return;
+    }
+    if(sessions.isEmpty()) {
+        %>
+        <p>No sits scheduled</p>
+        <%
+    } else {
+        SimpleDateFormat format = new SimpleDateFormat("E d MMMM 'at' hh:mm aaa");
+        SimpleDateFormat format2 = new SimpleDateFormat("hh:mm aaa");
+
+        String str = format.format(new Date(sessions.get(0).getStartDate().getTime())) + " to " + format2.format(new Date(sessions.get(0).getEndDate().getTime()));
+        %><p>Next Sit:</p><%
+        out.println("<p>" + str + "</p>");
+    }
+    %>
 <p>
 <a href="index.jsp">To Login Page</a>
 
