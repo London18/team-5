@@ -4,9 +4,9 @@ public class AuthenticationResult {
 
     private AuthenticationResultState state;
     private String username;
-    private int payRollId;
+    private String payRollId;
 
-    public AuthenticationResult(AuthenticationResultState state, String username, int payRollId) {
+    public AuthenticationResult(AuthenticationResultState state, String username, String payRollId) {
         this.state = state;
         this.username = username;
         this.payRollId = payRollId;
@@ -16,7 +16,7 @@ public class AuthenticationResult {
         return state;
     }
 
-    public int getPayRollId() {
+    public String getPayRollId() {
         return payRollId;
     }
 
