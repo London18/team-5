@@ -1,4 +1,6 @@
-<%--
+<%@ page import="db.sessionFetcher" %>
+<%@ page import="data.sessionInformation" %>
+<%@ page import="auth.AuthenticationHelper" %><%--
   Created by IntelliJ IDEA.
   User: 06gbi
   Date: 09/11/2018
@@ -19,7 +21,27 @@
 </head>
 <body>
 <a href = "/logoutauth">LOGOUT</a>
+<%
+    if(AuthenticationHelper.isAuthenticated(request)) {
+        response.sendRedirect("/index.jsp");
+        return;
+    }
+    sessionFetcher sessionFetcher = new sessionFetcher();
+    sessionInformation sessionInfo = sessionFetcher.getSessionInfo(AuthenticationHelper.getSession(request).getName());
+    if(sessionInfo.getStatus() == 0) {
+        response.sendRedirect("/leave.jsp");
+        return;
+    }
+    if(sessionInfo.getStatus() == 1) {
+        %><p><%=sessionInfo.getName()%></p><%
+        %><p><%=sessionInfo.getStartDateTime()%></p><%
+    }
 
+    if(sessionInfo.getStatus() == 2 || sessionInfo.getStatus() == 3 ){
+        response.sendRedirect("/waiting.jsp");
+        return;
+    }
+%>
 
 
 <div class= "btn-group">
