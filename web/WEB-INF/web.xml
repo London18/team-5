@@ -5,7 +5,13 @@
          version="4.0">
 
     <servlet>
-        <servlet-name>Test</servlet-name>
-        <servlet-class>servlets.TestServlet</servlet-class>
+        <servlet-name>loginauth</servlet-name>
+        <servlet-class>servlets.LoginAuthServlet</servlet-class>
+        <url-pattern>/loginauth</url-pattern>
     </servlet>
+
+    <servlet-mapping>
+        <servlet-name>loginauth</servlet-name>
+        <url-pattern>/loginauth</url-pattern>
+    </servlet-mapping>
 </web-app>
