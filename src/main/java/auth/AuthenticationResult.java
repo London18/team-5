@@ -1,26 +1,22 @@
 package auth;
 
+import db.Nurse;
+
 public class AuthenticationResult {
 
     private AuthenticationResultState state;
-    private String username;
-    private String payRollId;
+    private Nurse nurse;
 
-    public AuthenticationResult(AuthenticationResultState state, String username, String payRollId) {
+    public AuthenticationResult(AuthenticationResultState state, Nurse nurse) {
         this.state = state;
-        this.username = username;
-        this.payRollId = payRollId;
+        this.nurse = nurse;
     }
 
     public AuthenticationResultState getState() {
         return state;
     }
 
-    public String getPayRollId() {
-        return payRollId;
-    }
-
-    public String getUsername() {
-        return username;
+    public Nurse getNurse() {
+        return nurse;
     }
 }
