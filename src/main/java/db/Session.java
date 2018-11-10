@@ -1,5 +1,6 @@
 package db;
 
+
 import java.util.Date;
 
 public class Session {
@@ -11,13 +12,16 @@ public class Session {
 
     public Session(String patientId, Date startDate, Date endDate) {
         this.patientId = patientId;
+
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
+
     public String getPatientId() {
         return patientId;
     }
+
 
     public Date getStartDate() {
         return startDate;
@@ -26,6 +30,7 @@ public class Session {
     public Date getEndDate() {
         return endDate;
     }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -39,4 +44,5 @@ public class Session {
     public int hashCode() {
         return patientId.hashCode() * startDate.hashCode() & endDate.hashCode();
     }
+
 }

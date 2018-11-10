@@ -23,7 +23,7 @@
 
 
 <div class= "btn-group">
-    <button>I am home safe</button><p></p>
+    <button>I am in a safe zone</button><p></p>
     <button>Done with current session, moving on to another sit</button>
 
 
