@@ -2,7 +2,10 @@
 <%@ page import="db.SessionChecker" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.sql.Date" %><%--
+<%@ page import="java.sql.Date" %>
+<%@ page import="data.sessionInformation" %>
+<%@ page import="db.sessionFetcher" %>
+<%@ page import="auth.AuthenticationHelper" %><%--
   Created by IntelliJ IDEA.
   User: 06gbi
   Date: 09/11/2018
@@ -19,22 +22,28 @@
 <body>
 <a href = "/logoutauth">LOGOUT</a>
 <%
-    List<Session> sessions = SessionChecker.getSessionInformation();
-    if(SessionChecker.isInSession(sessions)) {
+    sessionFetcher sessionFetcher = new sessionFetcher();
+    sessionInformation sessionInfo = sessionFetcher.getSessionInfo(AuthenticationHelper.getSession(request).getName());
+    if(sessionInfo.getStatus() == 0) {
         response.sendRedirect("/leave.jsp");
         return;
     }
-    if(sessions.isEmpty()) {
+    if(sessionInfo.getStatus() == 1) {
+        response.sendRedirect("/returned.jsp");
+        return;
+    }
+
+    if(sessionInfo.getStatus() == 2){
         %>
         <p>No sits scheduled</p>
         <%
-    } else {
+    }
+    else if(sessionInfo.getStatus() == 3){
         SimpleDateFormat format = new SimpleDateFormat("E d MMMM 'at' hh:mm aaa");
         SimpleDateFormat format2 = new SimpleDateFormat("hh:mm aaa");
-
-        String str = format.format(new Date(sessions.get(0).getStartDate().getTime())) + " to " + format2.format(new Date(sessions.get(0).getEndDate().getTime()));
+        String str = sessionInfo.getStartDateTime().toString();
         %><p>Next Sit:</p><%
-        out.println("<p>" + str + "</p>");
+            System.out.println("<p>" + str + "</p>");
     }
     %>
 <p>
