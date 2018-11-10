@@ -112,5 +112,20 @@ public class sessionFetcher {
 		}
 	}
 
+	public boolean storeSafePlace(String user, String startTD, String endTD){
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = this.db.getConnection().prepareStatement("UPDATE SESSIONSASS, SESSIONS, PASSWORDS" +
+					" SET SESSIONSASS.HOME = 1 WHERE SESSIONSASS.PAYROLLNUM = PASSWORDS." +
+					"PAYROLLNUM AND PASSWORDS.USERNAME = ? AND SESSIONS.STARTTD = ? AND SESSIONS.ENDTD = ?;");
+			preparedStatement.setString('0',user);
+			preparedStatement.setString('1',startTD);
+			preparedStatement.setString('2',endTD);
+			return preparedStatement.execute();
+		} catch (SQLException e) {
+			return false;
+		}
+	}
+
 
 }
