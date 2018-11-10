@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="carerStyles.css">
 
     <style>
-        .button1 {width: 250px;}
+
         .block {
         display: block;
         width: 100%;
@@ -30,7 +30,10 @@
     .block:hover {
         background-color: #ddd;
         color: black;
-    }</style>
+    }
+        .block {width: 250px;
+        align: middle}
+    </style>
 </head>
 <body>
 <h1 style="color:blue; text-align:center;"> Julia's House</h1>
