@@ -96,8 +96,20 @@ public class sessionFetcher {
 		return new sessionInformation(2,null,null,"N/A");
 	}
 
-	public void storeCommentAndLeftHome(){
-
+	public boolean storeCommentAndLeftHome(String comment, String user, String startTD, String endTD){
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = this.db.getConnection().prepareStatement("UPDATE SESSIONSASS, SESSIONS, PASSWORDS" +
+					" SET SESSIONSASS.LEFTHOME = 1, SESSIONSASS.COMMENT = ? WHERE SESSIONSASS.PAYROLLNUM = PASSWORDS." +
+					"PAYROLLNUM AND PASSWORDS.USERNAME = ? AND SESSIONS.STARTTD = ? AND SESSIONS.ENDTD = ?;");
+			preparedStatement.setString('0',comment);
+			preparedStatement.setString('1',user);
+			preparedStatement.setString('2',startTD);
+			preparedStatement.setString('3',endTD);
+			return preparedStatement.execute();
+		} catch (SQLException e) {
+			return false;
+		}
 	}
 
 
