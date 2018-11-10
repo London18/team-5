@@ -39,6 +39,10 @@
 </head>
 <body>
 <%
+    if(AuthenticationHelper.isAuthenticated(request)) {
+        response.sendRedirect("/index.jsp");
+        return;
+    }
     sessionFetcher sessionFetcher = new sessionFetcher();
     sessionInformation sessionInfo = sessionFetcher.getSessionInfo(AuthenticationHelper.getSession(request).getName());
     if(sessionInfo.getStatus() == 0) {
