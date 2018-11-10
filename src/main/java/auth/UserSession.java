@@ -1,34 +1,26 @@
 package auth;
 
-import db.Nurse;
-import db.Role;
-
 public class UserSession {
 
-    private Nurse nurse;
+    private String name;
+    private String payrollId;
     private long creationTime;
 
     private static final int EXPIRE_TIME = 7 * 24 * 60 * 60;
 
-    public UserSession(Nurse nurse) {
+    public UserSession(String name, String payrollId) {
+        this.name = name;
+        this.payrollId = payrollId;
         this.nurse = nurse;
         this.creationTime = System.currentTimeMillis();
     }
 
     public String getName() {
-        return nurse.getUsername();
+        return name;
     }
 
     public String getPayrollId() {
-        return nurse.getPayrollId();
-    }
-
-    public String getEmail() {
-        return nurse.getEmail();
-    }
-
-    public Role getRole() {
-        return nurse.getRole();
+        return payrollId;
     }
 
     public long getCreationTime() {

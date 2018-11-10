@@ -35,7 +35,7 @@ public class LoginAuthServlet extends HttpServlet {
         try {
             AuthenticationResult result = AuthenticationHelper.authenticate(username, password);
             if(result.getState() == AuthenticationResultState.SUCCESS) {
-                UserSession userSession = new UserSession(result.getNurse());
+                UserSession userSession = new UserSession(result.getUsername(), result.getPayRollId());
                 request.getSession().setAttribute("usersession", userSession);
                 response.sendRedirect("/waiting.jsp");
             } else {

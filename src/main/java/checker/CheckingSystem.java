@@ -72,9 +72,9 @@ public class CheckingSystem {
         MailHandler handler = new MailHandler();
         for(Nurse admin : admins) {
             if(isHomeAlert) {
-//                handler.sendEmail(admin.getEmail(), "ALERT: No home safe report", problemNurse.getName() + " has not marked that they were back home safely. You should probably call them to check in on them");
+                handler.sendEmail(admin.getEmail(), "ALERT: No home safe report", problemNurse.getName() + " has not marked that they were back home safely. You should probably call them to check in on them");
             } else {
-//                handler.sendEmail(admin.getEmail(), "Alert: No sit finish report", problemNurse.getName() + " has not marked that they finished their sit. You may want to follow up on this");
+                handler.sendEmail(admin.getEmail(), "Alert: No sit finish report", problemNurse.getName() + " has not marked that they finished their sit. You may want to follow up on this");
             }
             System.out.println("SENDING EMAIL TO " + admin.getEmail() + " AS " + problemNurse.getName() + " ISNT BACK: " + isHomeAlert);
         }
@@ -86,7 +86,7 @@ public class CheckingSystem {
             actualMessage += "<a>Please click the </p><a href = 'localhost:8080'>following link</a><p> to confirm</p>";
             actualMessage += "<p>Thanks!</p></body></html>";
 
-//            new MailHandler().sendEmail(nurse.getNurse().getEmail(), subject, actualMessage);
+            new MailHandler().sendEmail(nurse.getNurse().getEmail(), subject, actualMessage);
         } catch (Exception e) {
             e.printStackTrace();
         }
