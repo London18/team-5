@@ -1,6 +1,7 @@
 <%@ page import="db.sessionFetcher" %>
 <%@ page import="data.sessionInformation" %>
-<%@ page import="auth.AuthenticationHelper" %><%--
+<%@ page import="auth.AuthenticationHelper" %>
+<%@ page import="auth.UserSession" %><%--
   Created by IntelliJ IDEA.
   User: 06gbi
   Date: 09/11/2018
@@ -39,12 +40,14 @@
 </head>
 <body>
 <%
-    if(AuthenticationHelper.isAuthenticated(request)) {
+    if(!AuthenticationHelper.isAuthenticated(request)) {
+        session.setAttribute("loginerror_message", "Please login to access that page");
         response.sendRedirect("/index.jsp");
         return;
     }
     sessionFetcher sessionFetcher = new sessionFetcher();
-    sessionInformation sessionInfo = sessionFetcher.getSessionInfo(AuthenticationHelper.getSession(request).getName());
+    UserSession userSession = AuthenticationHelper.getSession(request);
+    sessionInformation sessionInfo = sessionFetcher.getSessionInfo(userSession.getName());
     if(sessionInfo.getStatus() == 0) {
         %><p><%=sessionInfo.getName()%></p><%
         %><p><%=sessionInfo.getStartDateTime()%></p><%

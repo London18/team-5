@@ -22,7 +22,8 @@
 <body>
 <a href = "/logoutauth">LOGOUT</a>
 <%
-    if(AuthenticationHelper.isAuthenticated(request)) {
+    if(!AuthenticationHelper.isAuthenticated(request)) {
+        session.setAttribute("loginerror_message", "Please login to access that page");
         response.sendRedirect("/index.jsp");
         return;
     }

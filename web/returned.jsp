@@ -22,7 +22,8 @@
 <body>
 <a href = "/logoutauth">LOGOUT</a>
 <%
-    if(AuthenticationHelper.isAuthenticated(request)) {
+    if(!AuthenticationHelper.isAuthenticated(request)) {
+        session.setAttribute("loginerror_message", "Please login to access that page");
         response.sendRedirect("/index.jsp");
         return;
     }
@@ -45,7 +46,8 @@
 
 
 <div class= "btn-group">
-    <button>I am in a safe zone</button><p></p>
+    <button>I am in a safe zone</button>
+    </br>
     <button>Done with current session, moving on to another sit</button>
 
 
