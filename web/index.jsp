@@ -17,6 +17,8 @@
 
   </head>
   <body>
+  <br/>
+  <br/>
     <div class="container">
         <div class="row">
             <div class="col">
@@ -27,14 +29,23 @@
             <div class="col">
             </div>
         </div>
+        </br>
         <div class="row">
-            <form action="/loginauth" method="POST">
-                Username <input type="text" name="username">
-                <p>
-                    Password <input type="password" name="password">
-                <p>
-                    <input type="submit">
-            </form>
+            <div class="col">
+            </div>
+            <div class=" .text-center">
+                <div class="form-group">
+                    <form action="/loginauth" method="POST">
+                        Username <input type="text" name="username" class="form-control">
+                        <p>
+                            Password <input type="password" name="password" class="form-control">
+                        <p>
+                            <input type="submit" class="btn btn-primary">
+                    </form>
+                </div>
+            </div>
+            <div class="col">
+            </div>
         </div>
         <%
             String error = (String) session.getAttribute("loginerror_message");
@@ -42,7 +53,7 @@
                 session.removeAttribute("loginerror_message");
 
         %>
-        <p style="color:red">
+        <p class = "error">
             <%
                 out.println(error);
             %>
@@ -50,13 +61,6 @@
         <%
             }
         %>
-
-        <p>
-            <a href="waiting.jsp">Waiting page</a>
-        <p>
-            <a href="leave.jsp">Leave page</a>
-        <p>
-            <a href="returned.jsp">Returned page</a>
     </div>
   </body>
 </html>
