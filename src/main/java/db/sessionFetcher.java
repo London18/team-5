@@ -5,11 +5,11 @@ import com.mysql.cj.protocol.Resultset;
 import java.sql.PreparedStatement;
 import java.util.Date;
 
-public class Fetcher {
+public class sessionFetcher {
 
 	private DatabaseHelper db;
 
-	public Fetcher(){
+	public sessionFetcher(){
 		try {
 			this.db = DatabaseHelper.instance();
 		} catch (Exception e) {}
