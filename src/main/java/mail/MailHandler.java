@@ -1,35 +1,32 @@
 package mail;
 
+import util.ResourceUtils;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Date;
-import java.util.Properties;
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
 
 public class MailHandler {
 
-	final String fromEmail = "Code4GoodTeam5@gmail.com"; //requires valid gmail id
-	final String password = "ELiXiRC4GT5"; // correct password for gmail id
+    private String host;
+    private int port;
+    private String email;
+    private String name;
+    private String password;
 
-
-	public MailHandler(){
-
+	public MailHandler() throws IOException {
+        loadSettings();
 	}
 
 	public int sendEmail(String toEmail, String subject, String body){
 		try {
 			Properties props = new Properties();
-			props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
-			props.put("mail.smtp.port", "587"); //TLS Port
+			props.put("mail.smtp.host", host); //SMTP Host
+			props.put("mail.smtp.port", Integer.toString(port)); //TLS Port
 			props.put("mail.smtp.auth", "true"); //enable authentication
 			props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
 
@@ -37,7 +34,7 @@ public class MailHandler {
 			Authenticator auth = new Authenticator() {
 				//override the getPasswordAuthentication method
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(fromEmail, password);
+					return new PasswordAuthentication(email, password);
 				}
 			};
 			Session session = Session.getInstance(props, auth);
@@ -47,9 +44,9 @@ public class MailHandler {
 			msg.addHeader("format", "flowed");
 			msg.addHeader("Content-Transfer-Encoding", "8bit");
 
-			msg.setFrom(new InternetAddress("Code4GoodTeam5@gmail.com", "Team Elixir"));
+			msg.setFrom(new InternetAddress(email, name));
 
-			msg.setReplyTo(InternetAddress.parse("Code4GoodTeam5@gmail.com", false));
+			msg.setReplyTo(InternetAddress.parse(email, false));
 
 			msg.setSubject(subject, "UTF-8");
 
@@ -66,4 +63,14 @@ public class MailHandler {
 		return 0;
 	}
 
+	private void loadSettings() throws IOException {
+        List<String> lines = ResourceUtils.getLines("mail.txt");
+        if(lines.size() < 5) throw new IOException("Invalid mail info");
+
+        host = lines.get(0);
+        port = Integer.parseInt(lines.get(1));
+        email = lines.get(2);
+        name = lines.get(3);
+        password = lines.get(4);
+    }
 }

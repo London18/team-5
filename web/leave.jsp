@@ -37,6 +37,7 @@
 </head>
 <body>
 <h1 style="color:blue; text-align:center;"> Julia's House</h1>
+<a href = "/logoutauth">LOGOUT</a>
 
 <p>Name of Carer:  </p>
 <p>Current Session: </p>

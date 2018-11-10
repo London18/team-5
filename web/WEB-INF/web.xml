@@ -7,11 +7,18 @@
     <servlet>
         <servlet-name>loginauth</servlet-name>
         <servlet-class>servlets.LoginAuthServlet</servlet-class>
-        <url-pattern>/loginauth</url-pattern>
+    </servlet>
+    <servlet>
+        <servlet-name>logoutauth</servlet-name>
+        <servlet-class>servlets.LogoutAuthServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>loginauth</servlet-name>
         <url-pattern>/loginauth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>logoutauth</servlet-name>
+        <url-pattern>/logoutauth</url-pattern>
     </servlet-mapping>
 </web-app>

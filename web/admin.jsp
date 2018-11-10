@@ -14,6 +14,7 @@
     <hr>
 </head>
 <body>
+
 <table style="width:100%">
     <tr>
         <th>Carer</th>
@@ -21,8 +22,10 @@
 
     </tr>
 
+
 </table>
 <hr>
 <a href="index.jsp">To Comments Page</a>
+<a href = "/logoutauth">LOGOUT</a>
 </body>
 </html>
