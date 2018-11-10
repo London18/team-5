@@ -2,7 +2,11 @@ body {
     background-color: 	#5d7cbd;
 }
 .error {
-    color: #dd397b;
+    color: #fc81a3;
     text-align: center;
-    font-weight: bold;
+    font-weight: 900;
+    font-size: 1.1em;
+}
+.loginButton {
+    width: 100%;
 }

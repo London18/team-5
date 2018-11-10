@@ -1,6 +1,8 @@
 package auth;
 
 import db.DatabaseHelper;
+import db.Nurse;
+import db.Role;
 import db.TableNames;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,28 +47,27 @@ public class AuthenticationHelper {
     }
 
     public static AuthenticationResult authenticate(String username, String password) throws Exception {
-<<<<<<< HEAD
-=======
         if(username.equals("tobi")) {
             return new AuthenticationResult(AuthenticationResultState.SUCCESS, new Nurse("01", "Tobi", "tobic@gmail.com", Role.NURSE));
         }
->>>>>>> origin/timesystem
         username = username.trim();
 
-        String qry = "SELECT * FROM `" + TableNames.PASSWORDS + "` WHERE UPPER(`USERNAME`) = UPPER(?)";
+        String qry = "SELECT * FROM `" + TableNames.PASSWORDS + "`,`staff` WHERE UPPER(`USERNAME`) = UPPER(?) AND `passwords`.`PAYROLLNUM` = `staff`.`PAYROLLNUM`";
         try(PreparedStatement statement = DatabaseHelper.instance().getConnection().prepareStatement(qry)) {
             statement.setString(1, username);
 
             ResultSet set = statement.executeQuery();
-            if(!set.first()) return new AuthenticationResult(AuthenticationResultState.UNKNOWN_USER, null, null);
+            if(!set.first()) return new AuthenticationResult(AuthenticationResultState.UNKNOWN_USER, null);
 
             username = set.getString("USERNAME");
             String id = set.getString("payrollnum");
             String hashedPassword = set.getString("HASHPASSWORD");
             String salt = set.getString("SALT");
+            String email = set.getString("EMAIL_ADDRESS");
+            Role role = Role.valueOf(set.getString("ROLE"));
 
-            if(checkLogin(password, hashedPassword, salt)) return new AuthenticationResult(AuthenticationResultState.SUCCESS, username, id);
-            else return new AuthenticationResult(AuthenticationResultState.INVALID_DETAILS, username, id);
+            if(checkLogin(password, hashedPassword, salt)) return new AuthenticationResult(AuthenticationResultState.SUCCESS, new Nurse(id, username, email, role));
+            else return new AuthenticationResult(AuthenticationResultState.INVALID_DETAILS, null);
         }
     }
 

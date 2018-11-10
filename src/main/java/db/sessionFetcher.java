@@ -2,27 +2,13 @@ package db;
 
 import data.sessionInformation;
 
-<<<<<<< HEAD
-=======
->>>>>>> origin/timesystem
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class sessionFetcher {
-
-	private DatabaseHelper db;
-
-
-	public sessionFetcher() {
-		try {
-			this.db = DatabaseHelper.instance();
-		} catch (Exception e) {
-		}
-	}
-
 
 	public sessionInformation getSessionInfo(String user) {
 		LocalDateTime localDateTime = LocalDateTime.now();
@@ -33,7 +19,8 @@ public class sessionFetcher {
 
 		// Do they have overdue safe place request?
 		try {
-			preparedStatement = this.db.getConnection().prepareStatement("SELECT STAFF.NAME, STARTTD, ENDTD FR" +
+			Connection connection = DatabaseHelper.instance().getConnection();
+			preparedStatement = connection.prepareStatement("SELECT STAFF.NAME, STARTTD, ENDTD FR" +
 					"OM STAFF, SESSIONS, SESSIONSASS, PASSWORDS PASS WHERE STAFF.PAYROLLNUM = PASS.PAYROLLNUM AND " +
 					"SESSIONSASS.PAYROLLNUM = STAFF.PAYROLLNUM AND SESSIONS.SESSIONID = SESSIONSASS.SESSIONID AND " +
 					"SESSIONSASS.LEFTHOME = 1 AND SESSIONSASS.HOME = 0 AND PASS.USERNAME = ? ORDER BY STARTTD ASC;");
@@ -44,7 +31,7 @@ public class sessionFetcher {
 						results.getDate("ENDTD"), results.getString("NAME"));
 			} else {
 				// No overdue safe place requests, so any overdue left patient requests?
-				preparedStatement = this.db.getConnection().prepareStatement("SELECT STAFF.NAME, STARTTD, E" +
+				preparedStatement = connection.prepareStatement("SELECT STAFF.NAME, STARTTD, E" +
 						"NDTD FROM STAFF, SESSIONS, SESSIONSASS, PASSWORDS PASS WHERE STAFF.PAYROLLNUM = PASS.PA" +
 						"YROLLNUM AND SESSIONSASS.PAYROLLNUM = STAFF.PAYROLLNUM AND SESSIONS.SESSIONID = SESSIONS" +
 						"ASS.SESSIONID AND SESSIONSASS.LEFTHOME = 0 AND SESSIONSASS.HOME = 0 AND SESSIONS.ENDTD <" +
@@ -56,7 +43,7 @@ public class sessionFetcher {
 							results.getDate("ENDTD"), results.getString("NAME"));
 				} else {
 					// No overdue left home requests, so any current requests?
-					preparedStatement = this.db.getConnection().prepareStatement("SELECT STAFF.NAME, STARTTD, E" +
+					preparedStatement = connection.prepareStatement("SELECT STAFF.NAME, STARTTD, E" +
 							"NDTD FROM STAFF, SESSIONS, SESSIONSASS, PASSWORDS PASS WHERE STAFF.PAYROLLNUM = PASS.PA" +
 							"YROLLNUM AND SESSIONSASS.PAYROLLNUM = STAFF.PAYROLLNUM AND SESSIONS.SESSIONID = SESSIONS" +
 							"ASS.SESSIONID AND SESSIONSASS.LEFTHOME = 0 AND SESSIONSASS.HOME = 0 AND SESSIONS.STARTTD" +
@@ -68,7 +55,7 @@ public class sessionFetcher {
 								results.getDate("ENDTD"), results.getString("NAME"));
 					} else {
 						//No current requests, any future requests
-						preparedStatement = this.db.getConnection().prepareStatement("SELECT STAFF.NAME, STARTTD" +
+						preparedStatement = connection.prepareStatement("SELECT STAFF.NAME, STARTTD" +
 								", ENDTD FROM STAFF, SESSIONS, SESSIONSASS, PASSWORDS PASS WHERE STAFF.PAYROLLNUM = " +
 								"PASS.PAYROLLNUM AND SESSIONSASS.PAYROLLNUM = STAFF.PAYROLLNUM AND SESSIONS.SESSIONID " +
 								"= SESSIONSASS.SESSIONID AND SESSIONSASS.LEFTHOME = 0 AND SESSIONSASS.HOME = 0 AND" +
@@ -80,7 +67,7 @@ public class sessionFetcher {
 									results.getDate("ENDTD"), results.getString("NAME"));
 						} else {
 							//No future requests
-							preparedStatement = this.db.getConnection().prepareStatement("SELECT STAFF.NAME FRO" +
+							preparedStatement = connection.prepareStatement("SELECT STAFF.NAME FRO" +
 									"M PASSWORDS, STAFF WHERE PASSWORDS.PAYROLLNUM = STAFF.PAYROLLNUM AND USERNAME " +
 									"= ?;");
 							preparedStatement.setString('0',user);
@@ -92,46 +79,38 @@ public class sessionFetcher {
 					}
 				}
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return new sessionInformation(2,null,null,"N/A");
 	}
 
-	public boolean storeCommentAndLeftHome(String comment, String user, String startTD, String endTD){
-		PreparedStatement preparedStatement = null;
-		try {
-			preparedStatement = this.db.getConnection().prepareStatement("UPDATE SESSIONSASS, SESSIONS, PASSWORDS" +
-					" SET SESSIONSASS.LEFTHOME = 1, SESSIONSASS.COMMENT = ? WHERE SESSIONSASS.PAYROLLNUM = PASSWORDS." +
-					"PAYROLLNUM AND PASSWORDS.USERNAME = ? AND SESSIONS.STARTTD = ? AND SESSIONS.ENDTD = ?;");
-			preparedStatement.setString('0',comment);
-			preparedStatement.setString('1',user);
-			preparedStatement.setString('2',startTD);
-			preparedStatement.setString('3',endTD);
-			return preparedStatement.execute();
-		} catch (SQLException e) {
+	public boolean storeCommentAndLeftHome(String comment, String user, Date startTD, Date endTD){
+		try(PreparedStatement statement = DatabaseHelper.instance().getConnection().prepareStatement("UPDATE SESSIONSASS, SESSIONS, PASSWORDS" +
+				" SET SESSIONSASS.LEFTHOME = 1, SESSIONSASS.COMMENT = ? WHERE SESSIONSASS.PAYROLLNUM = PASSWORDS." +
+				"PAYROLLNUM AND PASSWORDS.USERNAME = ? AND SESSIONS.STARTTD = ? AND SESSIONS.ENDTD = ?;")) {
+			statement.setString('0',comment);
+			statement.setString('1',user);
+			statement.setDate('2', startTD);
+			statement.setDate('3', endTD);
+			return statement.execute();
+		} catch (Exception e) {
 			return false;
 		}
 	}
 
 	public boolean storeSafePlace(String user, Date startTD, Date endTD){
 		PreparedStatement preparedStatement = null;
-<<<<<<< HEAD
-		try {
-			preparedStatement = this.db.getConnection().prepareStatement("UPDATE SESSIONSASS, SESSIONS, PASSWORDS" +
-					" SET SESSIONSASS.HOME = 1 WHERE SESSIONSASS.PAYROLLNUM = PASSWORDS." +
-					"PAYROLLNUM AND PASSWORDS.USERNAME = ? AND SESSIONS.STARTTD = ? AND SESSIONS.ENDTD = ?;");
-			preparedStatement.setString('0',user);
-			preparedStatement.setDate('1',startTD);
-			preparedStatement.setDate('2',endTD);
-=======
->>>>>>> origin/timesystem
+		try(PreparedStatement statement = DatabaseHelper.instance().getConnection().prepareStatement("UPDATE SESSIONSASS, SESSIONS, PASSWORDS" +
+				" SET SESSIONSASS.HOME = 1 WHERE SESSIONSASS.PAYROLLNUM = PASSWORDS." +
+				"PAYROLLNUM AND PASSWORDS.USERNAME = ? AND SESSIONS.STARTTD = ? AND SESSIONS.ENDTD = ?;");) {
+			statement.setString('0',user);
+			statement.setDate('1', startTD);
+			statement.setDate('2', endTD);
 			return preparedStatement.execute();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}
-
-
 }
