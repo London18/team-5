@@ -2,11 +2,11 @@ package db;
 
 import data.sessionInformation;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class sessionFetcher {
 
@@ -37,8 +37,8 @@ public class sessionFetcher {
 			preparedStatement.setString('0',user);
 			results = preparedStatement.executeQuery();
 			if (results.next()) {
-				return new sessionInformation(1, results.getString("STARTTD"),
-						results.getString("ENDTD"), results.getString("NAME"));
+				return new sessionInformation(1, results.getDate("STARTTD"),
+						results.getDate("ENDTD"), results.getString("NAME"));
 			} else {
 				// No overdue safe place requests, so any overdue left patient requests?
 				preparedStatement = this.db.getConnection().prepareStatement("SELECT STAFF.NAME, STARTTD, E" +
@@ -49,8 +49,8 @@ public class sessionFetcher {
 				preparedStatement.setString('0',user);
 				results = preparedStatement.executeQuery();
 				if (results.next()) {
-					return new sessionInformation(0, results.getString("STARTTD"),
-							results.getString("ENDTD"), results.getString("NAME"));
+					return new sessionInformation(0, results.getDate("STARTTD"),
+							results.getDate("ENDTD"), results.getString("NAME"));
 				} else {
 					// No overdue left home requests, so any current requests?
 					preparedStatement = this.db.getConnection().prepareStatement("SELECT STAFF.NAME, STARTTD, E" +
@@ -61,8 +61,8 @@ public class sessionFetcher {
 					preparedStatement.setString('0',user);
 					results = preparedStatement.executeQuery();
 					if (results.next()) {
-						return new sessionInformation(0, results.getString("STARTTD"),
-								results.getString("ENDTD"), results.getString("NAME"));
+						return new sessionInformation(0, results.getDate("STARTTD"),
+								results.getDate("ENDTD"), results.getString("NAME"));
 					} else {
 						//No current requests, any future requests
 						preparedStatement = this.db.getConnection().prepareStatement("SELECT STAFF.NAME, STARTTD" +
@@ -73,8 +73,8 @@ public class sessionFetcher {
 						preparedStatement.setString('0',user);
 						results = preparedStatement.executeQuery();
 						if (results.next()) {
-							return new sessionInformation(3, results.getString("STARTTD"),
-									results.getString("ENDTD"), results.getString("NAME"));
+							return new sessionInformation(3, results.getDate("STARTTD"),
+									results.getDate("ENDTD"), results.getString("NAME"));
 						} else {
 							//No future requests
 							preparedStatement = this.db.getConnection().prepareStatement("SELECT STAFF.NAME FRO" +
@@ -112,15 +112,15 @@ public class sessionFetcher {
 		}
 	}
 
-	public boolean storeSafePlace(String user, String startTD, String endTD){
+	public boolean storeSafePlace(String user, Date startTD, Date endTD){
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = this.db.getConnection().prepareStatement("UPDATE SESSIONSASS, SESSIONS, PASSWORDS" +
 					" SET SESSIONSASS.HOME = 1 WHERE SESSIONSASS.PAYROLLNUM = PASSWORDS." +
 					"PAYROLLNUM AND PASSWORDS.USERNAME = ? AND SESSIONS.STARTTD = ? AND SESSIONS.ENDTD = ?;");
 			preparedStatement.setString('0',user);
-			preparedStatement.setString('1',startTD);
-			preparedStatement.setString('2',endTD);
+			preparedStatement.setDate('1',startTD);
+			preparedStatement.setDate('2',endTD);
 			return preparedStatement.execute();
 		} catch (SQLException e) {
 			return false;
