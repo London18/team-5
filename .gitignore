@@ -1,4 +1,6 @@
 .idea
 out
 target
-mysqlconnection.txt
+src/main/resources/mysqlconnection.txt
+src/main/resources/mail.txt
+JuliasHouse.iml

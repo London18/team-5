@@ -1,9 +1,9 @@
 package db;
 
+import util.ResourceUtils;
+
 import java.io.Closeable;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -44,7 +44,9 @@ public class DatabaseHelper implements Closeable {
 
     private static String[] getLoginInfo() throws IOException {
         String[] data = new String[4];
-        List<String> lines = Files.readAllLines(new File("mysqlconnection.txt").toPath());
+
+        List<String> lines = ResourceUtils.getLines("mysqlconnection.txt");
+
         if(lines.size() < 4) throw new IOException("Invalid login Info");
 
         for(int i = 0; i < 4; i++) data[i] = lines.get(i);
