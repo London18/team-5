@@ -22,6 +22,10 @@
 <body>
 <a href = "/logoutauth">LOGOUT</a>
 <%
+    if(AuthenticationHelper.isAuthenticated(request)) {
+        response.sendRedirect("/index.jsp");
+        return;
+    }
     sessionFetcher sessionFetcher = new sessionFetcher();
     sessionInformation sessionInfo = sessionFetcher.getSessionInfo(AuthenticationHelper.getSession(request).getName());
     if(sessionInfo.getStatus() == 0) {
@@ -32,7 +36,6 @@
         response.sendRedirect("/returned.jsp");
         return;
     }
-
     if(sessionInfo.getStatus() == 2){
         %>
         <p>No sits scheduled</p>

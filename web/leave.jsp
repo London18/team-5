@@ -1,4 +1,6 @@
-<%--
+<%@ page import="db.sessionFetcher" %>
+<%@ page import="data.sessionInformation" %>
+<%@ page import="auth.AuthenticationHelper" %><%--
   Created by IntelliJ IDEA.
   User: 06gbi
   Date: 09/11/2018
@@ -36,6 +38,23 @@
     </style>
 </head>
 <body>
+<%
+    sessionFetcher sessionFetcher = new sessionFetcher();
+    sessionInformation sessionInfo = sessionFetcher.getSessionInfo(AuthenticationHelper.getSession(request).getName());
+    if(sessionInfo.getStatus() == 0) {
+        %><p><%=sessionInfo.getName()%></p><%
+        %><p><%=sessionInfo.getStartDateTime()%></p><%
+    }
+    if(sessionInfo.getStatus() == 1) {
+        response.sendRedirect("/returned.jsp");
+        return;
+    }
+
+    if(sessionInfo.getStatus() == 2 || sessionInfo.getStatus() == 3 ){
+        response.sendRedirect("/waiting.jsp");
+        return;
+    }
+%>
 <h1 style="color:blue; text-align:center;"> Julia's House</h1>
 <a href = "/logoutauth">LOGOUT</a>
 
