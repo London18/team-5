@@ -3,12 +3,12 @@ package auth;
 public class UserSession {
 
     private String name;
-    private int payrollId;
+    private String payrollId;
     private long creationTime;
 
     private static final int EXPIRE_TIME = 7 * 24 * 60 * 60;
 
-    public UserSession(String name, int payrollId) {
+    public UserSession(String name, String payrollId) {
         this.name = name;
         this.payrollId = payrollId;
         this.creationTime = System.currentTimeMillis();
@@ -18,7 +18,7 @@ public class UserSession {
         return name;
     }
 
-    public int getPayrollId() {
+    public String getPayrollId() {
         return payrollId;
     }
 

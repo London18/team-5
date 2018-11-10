@@ -21,4 +21,8 @@
         <servlet-name>logoutauth</servlet-name>
         <url-pattern>/logoutauth</url-pattern>
     </servlet-mapping>
+
+    <listener>
+        <listener-class>util.StartupEvent</listener-class>
+    </listener>
 </web-app>
