@@ -49,7 +49,7 @@ public class sessionFetcher {
 				preparedStatement.setString('0',user);
 				results = preparedStatement.executeQuery();
 				if (results.next()) {
-					return new sessionInformation(1, results.getString("STARTTD"),
+					return new sessionInformation(0, results.getString("STARTTD"),
 							results.getString("ENDTD"), results.getString("NAME"));
 				} else {
 					// No overdue left home requests, so any current requests?
@@ -61,7 +61,7 @@ public class sessionFetcher {
 					preparedStatement.setString('0',user);
 					results = preparedStatement.executeQuery();
 					if (results.next()) {
-						return new sessionInformation(1, results.getString("STARTTD"),
+						return new sessionInformation(0, results.getString("STARTTD"),
 								results.getString("ENDTD"), results.getString("NAME"));
 					} else {
 						//No current requests, any future requests
@@ -73,7 +73,7 @@ public class sessionFetcher {
 						preparedStatement.setString('0',user);
 						results = preparedStatement.executeQuery();
 						if (results.next()) {
-							return new sessionInformation(1, results.getString("STARTTD"),
+							return new sessionInformation(3, results.getString("STARTTD"),
 									results.getString("ENDTD"), results.getString("NAME"));
 						} else {
 							//No future requests
@@ -94,6 +94,10 @@ public class sessionFetcher {
 		}
 
 		return new sessionInformation(2,null,null,"N/A");
+	}
+
+	public void storeCommentAndLeftHome(){
+
 	}
 
 
