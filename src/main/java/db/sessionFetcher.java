@@ -49,7 +49,7 @@ public class sessionFetcher {
 				preparedStatement.setString('0',user);
 				results = preparedStatement.executeQuery();
 				if (results.next()) {
-					return new sessionInformation(1, results.getString("STARTTD"),
+					return new sessionInformation(0, results.getString("STARTTD"),
 							results.getString("ENDTD"), results.getString("NAME"));
 				} else {
 					// No overdue left home requests, so any current requests?
@@ -61,7 +61,7 @@ public class sessionFetcher {
 					preparedStatement.setString('0',user);
 					results = preparedStatement.executeQuery();
 					if (results.next()) {
-						return new sessionInformation(1, results.getString("STARTTD"),
+						return new sessionInformation(0, results.getString("STARTTD"),
 								results.getString("ENDTD"), results.getString("NAME"));
 					} else {
 						//No current requests, any future requests
@@ -73,7 +73,7 @@ public class sessionFetcher {
 						preparedStatement.setString('0',user);
 						results = preparedStatement.executeQuery();
 						if (results.next()) {
-							return new sessionInformation(1, results.getString("STARTTD"),
+							return new sessionInformation(3, results.getString("STARTTD"),
 									results.getString("ENDTD"), results.getString("NAME"));
 						} else {
 							//No future requests
@@ -94,6 +94,37 @@ public class sessionFetcher {
 		}
 
 		return new sessionInformation(2,null,null,"N/A");
+	}
+
+	public boolean storeCommentAndLeftHome(String comment, String user, String startTD, String endTD){
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = this.db.getConnection().prepareStatement("UPDATE SESSIONSASS, SESSIONS, PASSWORDS" +
+					" SET SESSIONSASS.LEFTHOME = 1, SESSIONSASS.COMMENT = ? WHERE SESSIONSASS.PAYROLLNUM = PASSWORDS." +
+					"PAYROLLNUM AND PASSWORDS.USERNAME = ? AND SESSIONS.STARTTD = ? AND SESSIONS.ENDTD = ?;");
+			preparedStatement.setString('0',comment);
+			preparedStatement.setString('1',user);
+			preparedStatement.setString('2',startTD);
+			preparedStatement.setString('3',endTD);
+			return preparedStatement.execute();
+		} catch (SQLException e) {
+			return false;
+		}
+	}
+
+	public boolean storeSafePlace(String user, String startTD, String endTD){
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = this.db.getConnection().prepareStatement("UPDATE SESSIONSASS, SESSIONS, PASSWORDS" +
+					" SET SESSIONSASS.HOME = 1 WHERE SESSIONSASS.PAYROLLNUM = PASSWORDS." +
+					"PAYROLLNUM AND PASSWORDS.USERNAME = ? AND SESSIONS.STARTTD = ? AND SESSIONS.ENDTD = ?;");
+			preparedStatement.setString('0',user);
+			preparedStatement.setString('1',startTD);
+			preparedStatement.setString('2',endTD);
+			return preparedStatement.execute();
+		} catch (SQLException e) {
+			return false;
+		}
 	}
 
 
