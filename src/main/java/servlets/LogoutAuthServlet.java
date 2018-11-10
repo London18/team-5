@@ -7,15 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "Test")
+@WebServlet(name = "logoutauth")
+public class LogoutAuthServlet extends HttpServlet {
 
-public class TestServlet extends HttpServlet {
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Post");
+        request.getSession().removeAttribute("usersession");
+        response.sendRedirect("/index.jsp");
     }
 }

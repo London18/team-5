@@ -5,7 +5,32 @@
          version="4.0">
 
     <servlet>
-        <servlet-name>Test</servlet-name>
-        <servlet-class>servlets.TestServlet</servlet-class>
+        <servlet-name>loginauth</servlet-name>
+        <servlet-class>servlets.LoginAuthServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>logoutauth</servlet-name>
+        <servlet-class>servlets.LogoutAuthServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>safe</servlet-name>
+        <servlet-class>servlets.SafeServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>loginauth</servlet-name>
+        <url-pattern>/loginauth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>logoutauth</servlet-name>
+        <url-pattern>/logoutauth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>safe</servlet-name>
+        <url-pattern>/safe</url-pattern>
+    </servlet-mapping>
+
+    <listener>
+        <listener-class>util.StartupEvent</listener-class>
+    </listener>
 </web-app>
