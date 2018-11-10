@@ -11,7 +11,7 @@
     <title>Admin</title>
 </head>
 <body>
-
+<a href = "/logoutauth">LOGOUT</a>
 
 </body>
 </html>

@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="carerStyles.css">
 </head>
 <body>
-
+<a href = "/logoutauth">LOGOUT</a>
 
 
 
