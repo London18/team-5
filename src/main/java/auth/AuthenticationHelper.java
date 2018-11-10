@@ -52,10 +52,10 @@ public class AuthenticationHelper {
             statement.setString(1, username);
 
             ResultSet set = statement.executeQuery();
-            if(!set.first()) return new AuthenticationResult(AuthenticationResultState.UNKNOWN_USER, null, -1);
+            if(!set.first()) return new AuthenticationResult(AuthenticationResultState.UNKNOWN_USER, null, null);
 
             username = set.getString("USERNAME");
-            int id = set.getInt("payrollnum");
+            String id = set.getString("payrollnum");
             String hashedPassword = set.getString("HASHPASSWORD");
             String salt = set.getString("SALT");
 
