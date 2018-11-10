@@ -46,8 +46,6 @@
   <p>
       <a href="leave.jsp">Leave page</a>
   <p>
-      <a href="comments.jsp">Comments page</a>
-  <p>
       <a href="returned.jsp">Returned page</a>
   </body>
 </html>
