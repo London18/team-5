@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="carerStyles.css">
 </head>
 <body>
+<a href = "/logoutauth">LOGOUT</a>
 <p>
 <a href="index.jsp">To Login Page</a>
 
