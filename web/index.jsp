@@ -1,4 +1,13 @@
+<%@ page import="auth.AuthenticationHelper" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%
+    if(AuthenticationHelper.isAuthenticated(request)) {
+        response.sendRedirect("/waiting.jsp");
+        return;
+    }
+%>
+
 <html>
   <head>
     <title>Julia's House Login</title>
@@ -7,14 +16,31 @@
 
   </head>
   <body>
+
   <h3>Login</h3>
   <form action="/loginauth" method="POST">
-    Username <input type="text">
+    Username <input type="text" name="username">
     <p>
-      Password <input type="password">
+      Password <input type="password" name="password">
     <p>
       <input type="submit">
   </form>
+
+  <%
+      String error = (String) session.getAttribute("loginerror_message");
+      if(error != null) {
+          session.removeAttribute("loginerror_message");
+
+    %>
+  <p style="color:red">
+      <%
+          out.println(error);
+      %>
+  </p>
+  <%
+      }
+  %>
+
   <p>
         <a href="waiting.jsp">Waiting page</a>
   <p>

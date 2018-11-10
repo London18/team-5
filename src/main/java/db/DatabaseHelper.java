@@ -1,3 +1,5 @@
+package db;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
@@ -20,13 +22,9 @@ public class DatabaseHelper implements Closeable {
         connection = DriverManager.getConnection("jdbc:mysql://" + details[0] + ":3306/" + details[1], details[2], details[3]);
     }
 
-    public static DatabaseHelper instance() {
+    public static DatabaseHelper instance() throws Exception {
         if(instance == null) {
-            try {
-                instance = new DatabaseHelper();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            instance = new DatabaseHelper();
         }
         return instance;
     }
